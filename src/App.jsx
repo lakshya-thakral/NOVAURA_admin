@@ -649,7 +649,7 @@ export default function App() {
                         <div key={art.id} style={{ display: "flex", gap: "0.75rem", alignItems: "center", background: "rgba(255,255,255,0.01)", padding: "0.5rem", borderRadius: "6px", border: "1px solid var(--border-glow)" }}>
                           <img src={art.image} alt={art.title} style={{ width: "40px", height: "40px", borderRadius: "4px", objectFit: "cover" }} />
                           <div style={{ flexGrow: 1, minWidth: 0 }}>
-                            <div style={{ fontSize: "0.85rem", fontWeight: 600, color: "#fff", whiteSpace: "nowrap", overflow: "hidden", text-overflow: "ellipsis" }}>{art.title}</div>
+                            <div style={{ fontSize: "0.85rem", fontWeight: 600, color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{art.title}</div>
                             <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>By {art.author} in {art.category}</div>
                           </div>
                           <ChevronRight size={14} color="var(--text-muted)" />
