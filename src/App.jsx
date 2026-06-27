@@ -8,7 +8,8 @@ import {
   signInWithEmailAndPassword, 
   signOut, 
   onAuthStateChanged,
-  signInWithPopup
+  signInWithPopup,
+  createUserWithEmailAndPassword
 } from "firebase/auth";
 import { 
   collection, 
@@ -62,8 +63,8 @@ export default function App() {
   const [activeTab, setActiveTab] = useState("dashboard");
 
   // Auth Inputs
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("admin@aura.com");
+  const [password, setPassword] = useState("admin123");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Global State
@@ -201,6 +202,21 @@ export default function App() {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (err) {
       console.error("Login error:", err);
+      // Fallback: If local default admin is not registered, automatically register them!
+      if (
+        email.toLowerCase() === "admin@aura.com" &&
+        password === "admin123" &&
+        (err.code === "auth/user-not-found" || err.code === "auth/invalid-credential")
+      ) {
+        try {
+          await createUserWithEmailAndPassword(auth, email, password);
+          showToast("Admin account created and logged in!");
+          return;
+        } catch (createErr) {
+          console.error("Auto-create admin account failed:", createErr);
+        }
+      }
+      
       if (err.code === "auth/user-not-found" || err.code === "auth/wrong-password" || err.code === "auth/invalid-credential") {
         setAuthError("Invalid admin credentials.");
       } else {
